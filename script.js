@@ -7,11 +7,16 @@ async function checkStatus() {
 
     const apiUrl = `https://tcpa.api.uspeoplesearch.net/tcpa/v1?x=${phone}`;
 
+    console.log("API Request:", apiUrl); // Debugging ke liye
+
     try {
         const response = await fetch(apiUrl);
+
+        console.log("Raw Response:", response); // Yeh check karega ke response aa bhi raha hai ya nahi
+
         const data = await response.json();
 
-        console.log(data); // Debugging
+        console.log("API Response Data:", data); // Yeh API ka data dikhayega
 
         document.getElementById("result").innerHTML = `
             <p>Blacklist Status: ${data.blacklist_status || "Not Available"}</p>
