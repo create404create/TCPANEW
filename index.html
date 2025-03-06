@@ -20,7 +20,7 @@
     </div>
     <script>
         function checkStatus() {
-            let phone = document.getElementById("phoneNumber").value;
+            let phone = document.getElementById("phoneNumber").value.trim();
             if (!phone) {
                 alert("Please enter a phone number");
                 return;
@@ -31,19 +31,20 @@
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("Full API Response:", data); // Debugging ke liye
                     document.getElementById("result").innerHTML = `
                         <strong>Status:</strong> ${data.status} <br>
                         <strong>Phone:</strong> ${data.phone} <br>
                         <strong>Blacklist:</strong> ${data.listed} <br>
                         <strong>Litigator:</strong> ${data.type} <br>
-                        <strong>DNC National:</strong> ${data.dnc_national} <br>
-                        <strong>DNC State:</strong> ${data.dnc_state} <br>
                         <strong>State:</strong> ${data.state} <br>
+                        <strong>DNC National:</strong> ${data.dnc_national || 'Not Available'} <br>
+                        <strong>DNC State:</strong> ${data.dnc_state || 'Not Available'} <br>
                     `;
                 })
                 .catch(error => {
-                    document.getElementById("result").innerHTML = "Error fetching data!";
                     console.error("Error:", error);
+                    document.getElementById("result").innerHTML = "Error fetching data!";
                 });
         }
     </script>
