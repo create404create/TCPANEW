@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>USA Number Status Checker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -13,6 +13,27 @@
         <button onclick="checkStatus()">Check Status</button>
         <div id="result"></div>
     </div>
-    <script src="script.js"></script>
+    
+    <script>
+        function checkStatus() {
+            let phone = document.getElementById('phoneNumber').value;
+            let resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Checking...';
+
+            fetch(`https://tcpa.api.uspeoplesearch.net/tcpa/v1?x=${phone}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `
+                        <p><strong>Status:</strong> ${data.status || 'Unknown'}</p>
+                        <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+                        <p><strong>Listed:</strong> ${data.listed || 'No'}</p>
+                        <p><strong>Type:</strong> ${data.type || 'Unknown'}</p>
+                        <p><strong>State:</strong> ${data.state || 'Unknown'}</p>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = '<p style="color:red;">Error fetching data. Try again.</p>';
+                });
+        }
+    </script>
 </body>
 </html>
